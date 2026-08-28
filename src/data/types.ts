@@ -1,17 +1,7 @@
-export type ClipId =
-  | "01-morning-inbox"
-  | "02-prospecting-pg"
-  | "03-slides-granola"
-  | "04-engineer-bugbot"
-  | "05-forecast-sfdc"
-  | "06-customer-expert"
-  | "07-customer-exec-brief"
-  | "08-chief-groupchat";
-
 export type JobId =
-  | "standardize-room"
-  | "legal-redlines"
-  | "attach-engine";
+  | "meeting-follow-up"
+  | "answer-desk"
+  | "account-research";
 
 export type ParticipantRole = "you" | "bot";
 
@@ -54,11 +44,10 @@ export type StoryVisual =
       people: { initials: string; name: string }[];
     }
   | {
-      kind: "live-transcript";
-      timestamp: string;
-      speaker: string;
-      quote: string;
-      signals: string[];
+      kind: "meeting-notes";
+      title: string;
+      items: string[];
+      status: string;
     }
   | {
       kind: "deck-update";
@@ -227,15 +216,7 @@ export type DemoThread = {
   messages: DemoMessage[];
 };
 
-export type Clip = {
-  id: ClipId;
-  file: string;
-  poster: string;
-  title: string;
-  caption: string;
-};
-
-export type CroJob = {
+export type GtmJob = {
   id: JobId;
   number: number;
   title: string;
@@ -246,15 +227,5 @@ export type CroJob = {
   storyboard: StoryBeat[];
   unlock: string;
   outcome: string;
-  clips: ClipId[];
   demo: DemoThread;
-};
-
-export type Quote = {
-  name: string;
-  handle: string;
-  date: string;
-  avatar: string;
-  quote: string;
-  source: string;
 };

@@ -1,7 +1,7 @@
 import { CompareTable } from "@/components/CompareTable";
 import { HeroTelemetry } from "@/components/HeroTelemetry";
 import { JobSection } from "@/components/JobSection";
-import { QuoteWall } from "@/components/QuoteWall";
+import { RosterChart } from "@/components/RosterChart";
 import { SiteNav } from "@/components/SiteNav";
 import { JOBS } from "@/data/jobs";
 
@@ -12,7 +12,7 @@ export default function HomePage() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="hero-watercolor-image"
-          src="/brand/watercolor-pad.png"
+          src="/brand/nice-watercolor-header.png"
           alt=""
         />
         <SiteNav />
@@ -23,25 +23,28 @@ export default function HomePage() {
           <HeroTelemetry />
           <section className="hero">
             <div>
-              <p className="eyebrow">A proactive agent for every Datadog rep</p>
-              <h1>The agents that work while your reps sell.</h1>
+              <p className="eyebrow">Built for NiCE GTM</p>
+              <h1>A fleet of agents that keeps seller work moving.</h1>
               <p className="hero-intro">
-                Grok Bot listens to calls, watches the inbox, and researches
-                accounts in the background. Work triggers it — not another
-                prompt.
+                Each agent has its own computer. It can follow a meeting, check
+                approved sources, and prepare the next piece of work while the
+                seller stays with the customer.
               </p>
             </div>
           </section>
 
           <section className="usecase-framing">
-            <p className="eyebrow">Three sample use cases</p>
+            <p className="eyebrow">Three sample jobs</p>
             <h2>
-              Grok Bot gives every seller their own fleet of always-available
-              agent teammates. Anything your sellers do today can be done
-              through Grok Bot.
+              Start with three common jobs around a customer conversation.
             </h2>
-            <p>These are three examples from millions — not the boundary.</p>
+            <p>
+              The examples show how an agent starts, works across tools, and
+              stops for seller review.
+            </p>
           </section>
+
+          <RosterChart />
 
           <div className="metric-grid">
             {JOBS.map((job) => (
@@ -69,24 +72,23 @@ export default function HomePage() {
 
       <div className="orbit-break" aria-hidden>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/brand/watercolor-orbit.png" alt="" />
+        <img src="/brand/nice-watercolor-header.png" alt="" />
       </div>
 
       <div className="report">
         <CompareTable />
-        <QuoteWall />
       </div>
 
       <footer className="site-footer">
         <div>
-          <p className="footer-title">Cursor for Datadog</p>
-          <p>Grok Bot for Datadog sales</p>
+          <p className="footer-title">NiCE x SpaceXAI</p>
+          <p>Prepared for NiCE GTM</p>
         </div>
         <address className="footer-contact">
-          <p>Datadog&apos;s existing Cursor contact</p>
-          <strong>Madeline Ingleby</strong>
-          <a href="mailto:madeline.ingleby@cursor.com">
-            madeline.ingleby@cursor.com
+          <p>Your Cursor contact</p>
+          <strong>Ed Burke</strong>
+          <a href="mailto:ed.burke@cursor.com">
+            ed.burke@cursor.com
           </a>
         </address>
       </footer>

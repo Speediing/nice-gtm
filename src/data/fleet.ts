@@ -5,32 +5,37 @@ export type FleetBot = {
   name: string;
   blurb: string;
   color: string;
-  jobId?: JobId;
-  mark?: string;
-  seat?: boolean;
+  jobId: JobId;
+  apps: readonly string[];
+  status: string;
 };
 
 export const FLEET: FleetBot[] = [
   {
-    id: "rep",
-    name: "Every sales rep",
-    blurb: "The human stays in control. Their agents keep the surrounding work moving.",
-    color: "#E8E8ED",
-    mark: "AE",
-    seat: true,
+    id: "follow-up",
+    name: "Follow-up",
+    blurb: "Turns meetings into decisions, owners, and customer-ready drafts.",
+    jobId: "meeting-follow-up",
+    color: "#2F7FF7",
+    apps: ["Granola", "Figma", "Gmail"],
+    status: "Meeting in progress",
   },
   {
-    id: "inbox",
-    name: "Inbox agent",
-    blurb: "Watches procurement. Finds answers overnight before the rep opens Gmail.",
-    jobId: "legal-redlines",
-    color: "#FF375F",
+    id: "answers",
+    name: "Answer desk",
+    blurb: "Checks approved sources and marks decisions that still need a person.",
+    jobId: "answer-desk",
+    color: "#F25F87",
+    apps: ["Gmail", "Docs", "Slack"],
+    status: "Sources checked",
   },
   {
-    id: "cross-sell",
-    name: "Outbound agent",
-    blurb: "Watches target accounts. Builds the 3-why and queues personalized drafts.",
-    jobId: "attach-engine",
-    color: "#FF9500",
+    id: "research",
+    name: "Account research",
+    blurb: "Builds a sourced account idea and keeps every outreach draft parked.",
+    jobId: "account-research",
+    color: "#FF7B55",
+    apps: ["Web", "Docs", "LinkedIn"],
+    status: "Drafts ready",
   },
 ];

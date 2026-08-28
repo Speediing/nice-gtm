@@ -144,21 +144,23 @@ function LiveVisual({ visual }: { visual: StoryVisual }) {
           </footer>
         </div>
       );
-    case "live-transcript":
+    case "meeting-notes":
       return (
         <div className="story-ui story-transcript-ui" aria-hidden>
           <header className="story-ui-bar">
-            <strong>Live transcript</strong>
-            <span>{visual.timestamp}</span>
+            <strong>{visual.title}</strong>
+            <span>{visual.status}</span>
           </header>
-          <blockquote>
-            <strong>{visual.speaker}</strong>
-            “{visual.quote}”
-          </blockquote>
-          <footer>
-            {visual.signals.map((signal) => (
-              <span key={signal}>{signal}</span>
+          <ul>
+            {visual.items.map((item) => (
+              <li key={item}>
+                <span>✓</span>
+                {item}
+              </li>
             ))}
+          </ul>
+          <footer>
+            Working notes stay in draft
           </footer>
         </div>
       );

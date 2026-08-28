@@ -1,8 +1,17 @@
 import { NextResponse } from "next/server";
-import { AUTH_COOKIE, passwordMatches, sessionToken } from "@/lib/auth";
+import {
+  AUTH_COOKIE,
+  passwordMatches,
+  sessionToken,
+  sitePassword,
+} from "@/lib/auth";
 
-function safeNext(value: string | null | undefined): string {
-  if (!value || !value.startsWith("/") || value.startsWith("//")) {
+function safeNext(value: unknown): string {
+  if (
+    typeof value !== "string" ||
+    !value.startsWith("/") ||
+    value.startsWith("//")
+  ) {
     return "/";
   }
   return value;
@@ -14,13 +23,26 @@ export async function POST(request: Request) {
   let next = "/";
 
   if (contentType.includes("application/json")) {
-    const body = (await request.json()) as { password?: string; next?: string };
-    password = body.password || "";
+    let body: { password?: unknown; next?: unknown };
+    try {
+      const value: unknown = await request.json();
+      if (!value || typeof value !== "object" || Array.isArray(value)) {
+        throw new Error("Invalid request");
+      }
+      body = value as { password?: unknown; next?: unknown };
+    } catch {
+      return NextResponse.json({ ok: false }, { status: 400 });
+    }
+    password = typeof body.password === "string" ? body.password : "";
     next = safeNext(body.next);
   } else {
     const form = await request.formData();
     password = String(form.get("password") || "");
     next = safeNext(String(form.get("next") || "/"));
+  }
+
+  if (!sitePassword()) {
+    return NextResponse.json({ ok: false }, { status: 503 });
   }
 
   if (!passwordMatches(password)) {
@@ -37,7 +59,12 @@ export async function POST(request: Request) {
     ? NextResponse.json({ ok: true, next })
     : NextResponse.redirect(new URL(next, request.url), { status: 303 });
 
-  response.cookies.set(AUTH_COOKIE, await sessionToken(), {
+  const token = await sessionToken();
+  if (!token) {
+    return NextResponse.json({ ok: false }, { status: 503 });
+  }
+
+  response.cookies.set(AUTH_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",

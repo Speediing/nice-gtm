@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { beatFor } from "@/data/screens";
-import type { CroJob, Participant } from "@/data/types";
+import type { GtmJob, Participant } from "@/data/types";
 import type { DemoPlayback } from "@/hooks/useDemoPlayback";
 import { DEFAULT_ACCOUNT } from "@/lib/account";
 import { ArtifactCard } from "./ArtifactCard";
@@ -180,7 +180,7 @@ export function GrokBotWindow({
   job,
   playback,
 }: {
-  job: CroJob;
+  job: GtmJob;
   playback: DemoPlayback;
 }) {
   const {

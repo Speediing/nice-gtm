@@ -1,19 +1,13 @@
-import type { ClipId, JobId } from "./types";
+import type { JobId } from "./types";
 
 export type SiteKind =
   | "granola"
   | "figma"
-  | "gong"
-  | "sfdc-account"
-  | "sfdc-opp"
-  | "sheets"
   | "gmail"
-  | "slack"
   | "gdoc"
   | "linkedin"
   | "research"
-  | "page"
-  | "clip";
+  | "page";
 
 export type ChromeTab = {
   id: string;
@@ -27,104 +21,78 @@ export type ComputerBeat = {
   path?: string;
   title: string;
   site: SiteKind;
-  clip?: ClipId;
   tabs: ChromeTab[];
 };
 
 const granola = { id: "granola", host: "granola.app", label: "Granola" };
 const figma = { id: "figma", host: "figma.com", label: "Figma" };
 const gmail = { id: "gmail", host: "mail.google.com", label: "Gmail" };
-const gong = { id: "gong", host: "app.gong.io", label: "Gong" };
-const sfdc = {
-  id: "sfdc",
-  host: "datadog.lightning.force.com",
-  label: "Salesforce",
-};
-const sheets = {
-  id: "sheets",
-  host: "docs.google.com",
-  label: "Sheets",
-};
-const slack = { id: "slack", host: "app.slack.com", label: "Slack" };
 const gdoc = { id: "gdoc", host: "docs.google.com", label: "Docs" };
 const linkedin = {
   id: "linkedin",
   host: "www.linkedin.com",
   label: "LinkedIn",
 };
-const web = { id: "web", host: "acme.com", label: "Acme" };
+const web = {
+  id: "web",
+  host: "sample-account.example",
+  label: "Public sources",
+};
 
 export const SCREENS: Record<JobId, Record<string, ComputerBeat>> = {
-  "standardize-room": {
+  "meeting-follow-up": {
     m1: {
-      pill: "Opening Granola",
+      pill: "Opening the meeting notes",
       host: "granola.app",
-      path: "/notes/acme-datadog",
-      title: "Acme <> Datadog",
+      path: "/notes/cx-planning-session",
+      title: "CX planning session",
       site: "granola",
-      tabs: [granola, figma, gmail],
+      tabs: [granola, gdoc, figma, gmail],
     },
     m2: {
-      pill: "In Granola",
+      pill: "Sorting decisions and open questions",
       host: "granola.app",
-      path: "/notes/acme-datadog",
-      title: "Acme <> Datadog",
+      path: "/notes/cx-planning-session",
+      title: "CX planning session",
       site: "granola",
-      tabs: [granola, figma, gmail],
+      tabs: [granola, gdoc, figma, gmail],
     },
     m3: {
-      pill: "Pulling Granola, still on the call",
-      host: "granola.app",
-      path: "/notes/acme-datadog",
-      title: "Acme <> Datadog",
-      site: "clip",
-      clip: "03-slides-granola",
-      tabs: [granola, figma, gmail],
+      pill: "Checking approved sources",
+      host: "docs.google.com",
+      path: "/document/d/follow-up-sources",
+      title: "Follow-up sources",
+      site: "gdoc",
+      tabs: [granola, gdoc, figma, gmail],
     },
     m4: {
-      pill: "Writing their discovery into the deck",
+      pill: "Drafting the follow-up slides",
       host: "figma.com",
-      path: "/file/acme-next-meeting",
-      title: "Acme next meeting",
+      path: "/file/customer-follow-up",
+      title: "Meeting next steps",
       site: "figma",
-      tabs: [granola, figma, gmail],
+      tabs: [granola, gdoc, figma, gmail],
     },
     m5: {
-      pill: "Drafting the one-pager",
-      host: "figma.com",
-      path: "/file/acme-leave-behind",
-      title: "Acme one-pager",
-      site: "figma",
-      tabs: [granola, figma, gmail],
+      pill: "Drafting the follow-up email",
+      host: "mail.google.com",
+      path: "/mail/u/0/#drafts",
+      title: "Drafts",
+      site: "gmail",
+      tabs: [granola, gdoc, figma, gmail],
     },
     m6: {
-      pill: "Building the inside note",
-      host: "figma.com",
-      path: "/file/acme-champion-packet",
-      title: "Inside note",
-      site: "figma",
-      tabs: [granola, figma, gmail],
-    },
-    m7: {
-      pill: "Drafting in Gmail, not sent",
+      pill: "Drafts parked for seller review",
       host: "mail.google.com",
       path: "/mail/u/0/#drafts",
       title: "Drafts",
       site: "gmail",
-      tabs: [granola, figma, gmail],
-    },
-    m8: {
-      pill: "Drafting in Gmail, not sent",
-      host: "mail.google.com",
-      path: "/mail/u/0/#drafts",
-      title: "Drafts",
-      site: "gmail",
-      tabs: [granola, figma, gmail],
+      tabs: [granola, gdoc, figma, gmail],
     },
   },
-  "legal-redlines": {
+  "answer-desk": {
     m1: {
-      pill: "Opening Gmail",
+      pill: "Opening the customer thread",
       host: "mail.google.com",
       path: "/mail/u/0/#inbox",
       title: "Inbox",
@@ -132,24 +100,23 @@ export const SCREENS: Record<JobId, Record<string, ComputerBeat>> = {
       tabs: [gmail, gdoc],
     },
     m2: {
-      pill: "Drafting so you do not chase billing",
-      host: "mail.google.com",
-      path: "/mail/u/0/#inbox",
-      title: "Inbox",
-      site: "clip",
-      clip: "01-morning-inbox",
+      pill: "Checking approved sources",
+      host: "docs.google.com",
+      path: "/document/d/customer-answer-pack",
+      title: "Customer answer pack",
+      site: "gdoc",
       tabs: [gmail, gdoc],
     },
     m3: {
-      pill: "Drafting the morning reply, not sent",
+      pill: "Marking answers and open decisions",
       host: "docs.google.com",
-      path: "/document/d/acme-invoices",
-      title: "Acme invoices INV-0080 · INV-0081",
+      path: "/document/d/customer-answer-pack",
+      title: "Customer answer pack",
       site: "gdoc",
       tabs: [gmail, gdoc],
     },
     m4: {
-      pill: "Drafting in Gmail, not sent",
+      pill: "Drafting the reply",
       host: "mail.google.com",
       path: "/mail/u/0/#drafts",
       title: "Drafts",
@@ -157,7 +124,7 @@ export const SCREENS: Record<JobId, Record<string, ComputerBeat>> = {
       tabs: [gmail, gdoc],
     },
     m5: {
-      pill: "Drafting in Gmail, not sent",
+      pill: "Reply parked for account-team review",
       host: "mail.google.com",
       path: "/mail/u/0/#drafts",
       title: "Drafts",
@@ -165,42 +132,41 @@ export const SCREENS: Record<JobId, Record<string, ComputerBeat>> = {
       tabs: [gmail, gdoc],
     },
   },
-  "attach-engine": {
+  "account-research": {
     m1: {
-      pill: "Researching the account",
-      host: "acme.com",
-      path: "/careers/staff-sre",
-      title: "Staff SRE · Observability",
+      pill: "Reading public account sources",
+      host: "sample-account.example",
+      path: "/company",
+      title: "Sample CX account",
       site: "research",
       tabs: [web, gdoc, linkedin, gmail],
     },
     m2: {
-      pill: "Pulling public evidence of the pain",
-      host: "acme.com",
-      path: "/status",
-      title: "Acme status",
-      site: "clip",
-      clip: "02-prospecting-pg",
+      pill: "Keeping each signal beside its source",
+      host: "sample-account.example",
+      path: "/company/news",
+      title: "Public account signals",
+      site: "research",
       tabs: [web, gdoc, linkedin, gmail],
     },
     m3: {
-      pill: "Writing the 3-why hypothesis",
+      pill: "Writing the account hypothesis",
       host: "docs.google.com",
-      path: "/document/d/acme-3-why",
-      title: "Acme 3-why",
+      path: "/document/d/account-hypothesis",
+      title: "Account hypothesis",
       site: "gdoc",
       tabs: [web, gdoc, linkedin, gmail],
     },
     m4: {
-      pill: "Naming who would care",
+      pill: "Listing sources and roles to validate",
       host: "docs.google.com",
-      path: "/document/d/acme-3-why",
-      title: "Acme 3-why",
+      path: "/document/d/account-hypothesis",
+      title: "Sources and roles",
       site: "gdoc",
       tabs: [web, gdoc, linkedin, gmail],
     },
     m5: {
-      pill: "Drafting LinkedIn, not sent",
+      pill: "Drafting LinkedIn",
       host: "www.linkedin.com",
       path: "/messaging/compose",
       title: "Message",
@@ -208,7 +174,7 @@ export const SCREENS: Record<JobId, Record<string, ComputerBeat>> = {
       tabs: [web, gdoc, linkedin, gmail],
     },
     m6: {
-      pill: "Drafting in Gmail, not sent",
+      pill: "Drafting the email",
       host: "mail.google.com",
       path: "/mail/u/0/#drafts",
       title: "Drafts",
@@ -216,22 +182,22 @@ export const SCREENS: Record<JobId, Record<string, ComputerBeat>> = {
       tabs: [web, gdoc, linkedin, gmail],
     },
     m7: {
-      pill: "Building a page for this account",
-      host: "acme.datadoghq.dev",
-      path: "/acme-sev2",
-      title: "For Acme platform",
+      pill: "Building the account page",
+      host: "account-page.example",
+      path: "/sample-cx-account",
+      title: "Sample account page",
       site: "page",
       tabs: [web, gdoc, linkedin, gmail],
     },
     m8: {
-      pill: "Drafts parked. Nothing sent",
+      pill: "Drafts parked for seller review",
       host: "mail.google.com",
       path: "/mail/u/0/#drafts",
       title: "Drafts",
       site: "gmail",
       tabs: [web, gdoc, linkedin, gmail],
     },
-  }
+  },
 };
 
 export function beatFor(

@@ -1,89 +1,70 @@
+import type { CSSProperties } from "react";
 import { FLEET, type FleetBot } from "@/data/fleet";
 
-function initials(bot: FleetBot) {
-  if (bot.mark) return bot.mark;
-  const parts = bot.name.split(/\s+/).filter(Boolean);
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return `${parts[0][0] || ""}${parts[parts.length - 1][0] || ""}`.toUpperCase();
-}
+function AgentComputer({ agent }: { agent: FleetBot }) {
+  const style = { "--agent-color": agent.color } as CSSProperties;
 
-function isLight(hex: string) {
-  if (!hex.startsWith("#") || hex.length < 7) return false;
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return (r * 299 + g * 587 + b * 114) / 1000 > 180;
-}
-
-function Box({
-  bot,
-  chief = false,
-}: {
-  bot: FleetBot;
-  chief?: boolean;
-}) {
-  const className = chief ? "org-box is-chief" : "org-box";
-  const body = (
-    <>
-      <span
-        className="org-avatar"
-        style={{
-          background: bot.color,
-          color: isLight(bot.color) ? "#111" : "#fff",
-        }}
-        aria-hidden
-      >
-        {initials(bot)}
-      </span>
-      <span className="org-name">{bot.name}</span>
-      <span className="org-blurb">{bot.blurb}</span>
-    </>
-  );
-
-  if (bot.jobId) {
-    return (
-      <a className={className} href={`#${bot.jobId}`}>
-        {body}
+  return (
+    <li>
+      <a className="fleet-computer" href={`#${agent.jobId}`} style={style}>
+        <span className="fleet-monitor" aria-hidden>
+          <span className="fleet-browser-bar">
+            <i />
+            <i />
+            <i />
+            <b>{agent.name}</b>
+          </span>
+          <span className="fleet-screen">
+            <span className="fleet-agent-row">
+              <i>{agent.name.slice(0, 1)}</i>
+              <b>{agent.status}</b>
+            </span>
+            <span className="fleet-apps">
+              {agent.apps.map((app) => (
+                <small key={app}>{app}</small>
+              ))}
+            </span>
+            <span className="fleet-work">
+              <i />
+              <i />
+              <i />
+            </span>
+          </span>
+        </span>
+        <strong>{agent.name}</strong>
+        <span>{agent.blurb}</span>
       </a>
-    );
-  }
-
-  return <div className={className}>{body}</div>;
+    </li>
+  );
 }
 
 export function RosterChart() {
-  const seat = FLEET.find((item) => item.seat);
-  const agents = FLEET.filter((item) => !item.seat);
-
-  if (!seat) return null;
-
   return (
-    <section id="roster" className="roster">
-      <h2>A background team for every sales rep</h2>
-      <p className="section-lede">
-        The work itself is the trigger. A call starts, an email lands, or an
-        account enters the list — and the right agent picks it up. They keep
-        working after the laptop closes. Drafts stay drafts until the rep sends.
-      </p>
-
-      <div className="org" role="tree">
-        <div className="org-top">
-          <Box bot={seat} chief />
+    <section id="roster" className="roster fleet">
+      <div className="fleet-heading">
+        <div>
+          <p className="eyebrow">A computer for every agent</p>
+          <h2>The fleet works across the tools your sellers already use.</h2>
         </div>
-        <div className="org-branch">
-          <div className="org-connect" aria-hidden>
-            <i className="org-stem" />
-            <i className="org-bar" />
-          </div>
-          <ul className="org-kids">
-            {agents.map((agent) => (
-              <li key={agent.id} className="org-kid">
-                <Box bot={agent} />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <p className="section-lede">
+          Each agent keeps its own browser and working files. The seller can
+          open the computer, inspect the work, and approve the next action.
+        </p>
       </div>
+
+      <div className="fleet-control">
+        <span>
+          <i aria-hidden />
+          Seller control
+        </span>
+        <p>Three computers working. No customer action sent.</p>
+      </div>
+
+      <ul className="fleet-computers">
+        {FLEET.map((agent) => (
+          <AgentComputer key={agent.id} agent={agent} />
+        ))}
+      </ul>
     </section>
   );
 }

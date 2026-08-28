@@ -2,21 +2,28 @@ export function BrandLockup({
   size = "md",
 }: {
   size?: "sm" | "md" | "lg";
-  invert?: boolean;
 }) {
   return (
     <div className={`brand-lockup brand-lockup-${size}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/brand/datadog-wordmark.svg"
-        alt="Datadog"
-        className="brand-dd"
+        src="/brand/nice-wordmark.svg"
+        alt="NiCE"
+        className="brand-nice"
+        width="77"
+        height="28"
       />
       <span className="brand-times" aria-hidden>
         ×
       </span>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/brand/spacexai.svg" alt="SpaceXAI" className="brand-sxai" />
+      <img
+        src="/brand/spacexai.svg"
+        alt="SpaceXAI"
+        className="brand-sxai"
+        width="129"
+        height="16"
+      />
     </div>
   );
 }

@@ -1,12 +1,14 @@
 {
-  "name": "datadog-cro",
+  "name": "nice-gtm",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "audit:residue": "node scripts/audit-residue.mjs",
+    "verify:responsive": "node scripts/verify-responsive.mjs"
   },
   "dependencies": {
     "geist": "^1.7.2",
