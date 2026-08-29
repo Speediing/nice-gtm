@@ -114,7 +114,7 @@ export const HERO_JOBS = [
   },
   {
     id: "sales-chief-of-staff",
-    label: "Sales Chief of Staff",
+    label: "Chief of Staff",
     workLabel: "Daily plan ready",
     meta: [
       { label: "Input", value: "Seller task list" },

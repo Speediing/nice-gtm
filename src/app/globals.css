@@ -6322,11 +6322,27 @@ button:active:not(:focus-visible),
   }
 
   .site-header {
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.8rem 1rem;
   }
 
-  .header-actions .text-button:nth-child(n + 2) {
+  .header-actions {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .header-actions::-webkit-scrollbar {
     display: none;
+  }
+
+  .header-actions .text-button {
+    display: block;
+    flex: 0 0 auto;
+    padding: 0.5rem 0.65rem;
   }
 
   .hero h1,
