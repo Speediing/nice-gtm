@@ -187,8 +187,12 @@ try {
         heading: document.querySelector("h1")?.textContent,
         viewport: document.documentElement.clientWidth,
         scrollWidth: document.documentElement.scrollWidth,
+        heroJobCount: document.querySelectorAll(".hero-phone-jobs button").length,
+        heroPhone: rect(".hero-phone"),
         fleetComputers: document.querySelectorAll(".fleet-computer").length,
         artifacts: document.querySelectorAll(".chapter-payoff").length,
+        quotes: document.querySelectorAll(".quote-row").length,
+        quoteSources: document.querySelectorAll(".quote-row .quote-source").length,
         chat: rect(".job-more .gb-thread"),
         computer: rect(".job-more .pc-desk"),
         logo: logo ? {
@@ -201,10 +205,48 @@ try {
     })()`,
   );
 
+  const heroThreads = await evaluate(
+    cdp,
+    `(async () => {
+      const buttons = [...document.querySelectorAll(".hero-phone-jobs button")];
+      const threads = [];
+      for (const button of buttons) {
+        button.click();
+        await new Promise((resolve) => setTimeout(resolve, 40));
+        threads.push({
+          label: button.textContent?.trim(),
+          title: document.querySelector(".hero-phone-header strong")?.textContent,
+          work: document.querySelector(".hero-phone-work-label")?.textContent?.trim(),
+          meta: document.querySelectorAll(".hero-phone-work-meta").length,
+          messages: document.querySelectorAll(".hero-phone-message").length,
+          result: document.querySelector(".hero-phone-work > strong")?.textContent,
+        });
+      }
+      return threads;
+    })()`,
+  );
+
   assert(desktop.title === "NiCE x SpaceXAI", "Desktop title is wrong");
   assert(desktop.scrollWidth <= desktop.viewport + 1, "Desktop overflows");
+  assert(desktop.heroJobCount === 8, "Hero does not have eight jobs");
+  assert(desktop.heroPhone?.width > 0, "Hero phone is missing");
+  assert(heroThreads.length === 8, "Not every hero thread opened");
+  assert(
+    heroThreads.every(
+      (thread) =>
+        thread.label &&
+        thread.title &&
+        thread.work &&
+        thread.meta === 2 &&
+        thread.messages === 2 &&
+        thread.result,
+    ),
+    "A hero thread is incomplete",
+  );
   assert(desktop.fleetComputers === 3, "Desktop fleet is incomplete");
   assert(desktop.artifacts === 3, "A storyboard artifact is missing");
+  assert(desktop.quotes === 6, "Quote wall does not have six quotes");
+  assert(desktop.quoteSources === 6, "A quote is missing its source");
   assert(desktop.chat && desktop.computer, "Desktop demo split is missing");
   assert(
     desktop.chat.left < desktop.computer.left,
@@ -257,6 +299,8 @@ try {
         viewport: document.documentElement.clientWidth,
         scrollWidth: document.documentElement.scrollWidth,
         brandVisible: visible(".site-header .brand-lockup"),
+        heroJobCount: document.querySelectorAll(".hero-phone-jobs button").length,
+        heroPhoneVisible: visible(".hero-phone"),
         fleetComputers: document.querySelectorAll(".fleet-computer").length,
         phoneComputerVisible: visible(".pc-phone"),
         desktopComputerVisible: visible(".pc-desk"),
@@ -272,6 +316,8 @@ try {
   assert(mobile.scrollWidth <= mobile.viewport + 1, "Mobile overflows");
   assert(mobile.brandVisible, "Mobile brand lockup is hidden");
   assert(mobile.logo?.naturalWidth > 0, "Mobile official wordmark did not load");
+  assert(mobile.heroJobCount === 8, "Mobile hero does not have eight jobs");
+  assert(mobile.heroPhoneVisible, "Mobile hero phone is hidden");
   assert(mobile.fleetComputers === 3, "Mobile fleet is incomplete");
   assert(mobile.phoneComputerVisible, "Mobile computer cannot be opened");
   assert(!mobile.desktopComputerVisible, "Desktop computer leaked into mobile");

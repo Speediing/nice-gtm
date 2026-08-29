@@ -1,6 +1,8 @@
 import { CompareTable } from "@/components/CompareTable";
+import { HeroDemo } from "@/components/HeroDemo";
 import { HeroTelemetry } from "@/components/HeroTelemetry";
 import { JobSection } from "@/components/JobSection";
+import { QuoteWall } from "@/components/QuoteWall";
 import { RosterChart } from "@/components/RosterChart";
 import { SiteNav } from "@/components/SiteNav";
 import { JOBS } from "@/data/jobs";
@@ -21,17 +23,7 @@ export default function HomePage() {
       <div className="report">
         <div className="report-hero">
           <HeroTelemetry />
-          <section className="hero">
-            <div>
-              <p className="eyebrow">Built for NiCE GTM</p>
-              <h1>A fleet of agents that keeps seller work moving.</h1>
-              <p className="hero-intro">
-                Each agent has its own computer. It can follow a meeting, check
-                approved sources, and prepare the next piece of work while the
-                seller stays with the customer.
-              </p>
-            </div>
-          </section>
+          <HeroDemo />
 
           <section className="usecase-framing">
             <p className="eyebrow">Three sample jobs</p>
@@ -77,6 +69,7 @@ export default function HomePage() {
 
       <div className="report">
         <CompareTable />
+        <QuoteWall />
       </div>
 
       <footer className="site-footer">

@@ -7,9 +7,10 @@ The local NiCE wordmark is the official master SVG published by NiCE at
 
 ## What it is
 
-The page shows three sample GTM jobs. Each job has a scene-by-scene
-storyboard, a final work artifact, and an interactive Grok Bot demo with chat
-on the left and the agent computer on the right.
+The hero phone previews eight background jobs. Three deeper examples each have
+a scene-by-scene storyboard, a final work artifact, and an interactive Grok Bot
+demo with chat on the left and the agent computer on the right. A quote wall
+links each public product testimonial to its source.
 
 ## Run locally
 

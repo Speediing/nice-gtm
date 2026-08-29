@@ -32,6 +32,7 @@ const forbiddenPunctuation = [
   String.fromCodePoint(0x2013),
   String.fromCodePoint(0x2014),
 ];
+const verbatimPunctuationFiles = new Set(["src/data/quotes.ts"]);
 
 const failures = [];
 const files = listed.stdout.split("\0").filter((file) => file && existsSync(file));
@@ -56,8 +57,10 @@ for (const file of files) {
   if (lower.includes(forbiddenPassword)) {
     failures.push(`${file}: configured password`);
   }
-  for (const mark of forbiddenPunctuation) {
-    if (source.includes(mark)) failures.push(`${file}: long dash`);
+  if (!verbatimPunctuationFiles.has(file)) {
+    for (const mark of forbiddenPunctuation) {
+      if (source.includes(mark)) failures.push(`${file}: long dash`);
+    }
   }
 }
 
