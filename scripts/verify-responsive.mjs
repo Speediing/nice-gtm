@@ -213,9 +213,13 @@ try {
       for (const button of buttons) {
         button.click();
         await new Promise((resolve) => setTimeout(resolve, 40));
+        const titleNode = document.querySelector(".hero-phone-header strong");
         threads.push({
           label: button.textContent?.trim(),
-          title: document.querySelector(".hero-phone-header strong")?.textContent,
+          title: titleNode?.textContent,
+          titleClipped: titleNode
+            ? titleNode.scrollWidth > titleNode.clientWidth
+            : true,
           work: document.querySelector(".hero-phone-work-label")?.textContent?.trim(),
           meta: document.querySelectorAll(".hero-phone-work-meta").length,
           messages: document.querySelectorAll(".hero-phone-message").length,
@@ -236,6 +240,7 @@ try {
       (thread) =>
         thread.label &&
         thread.title &&
+        !thread.titleClipped &&
         thread.work &&
         thread.meta === 2 &&
         thread.messages === 2 &&
@@ -299,6 +304,9 @@ try {
         viewport: document.documentElement.clientWidth,
         scrollWidth: document.documentElement.scrollWidth,
         brandVisible: visible(".site-header .brand-lockup"),
+        visibleHeaderLinks: [...document.querySelectorAll(".header-actions a")]
+          .filter((link) => visible(".header-actions a[href='" + link.getAttribute("href") + "']"))
+          .length,
         heroJobCount: document.querySelectorAll(".hero-phone-jobs button").length,
         heroPhoneVisible: visible(".hero-phone"),
         fleetComputers: document.querySelectorAll(".fleet-computer").length,
@@ -315,6 +323,7 @@ try {
 
   assert(mobile.scrollWidth <= mobile.viewport + 1, "Mobile overflows");
   assert(mobile.brandVisible, "Mobile brand lockup is hidden");
+  assert(mobile.visibleHeaderLinks === 4, "Mobile header links are missing");
   assert(mobile.logo?.naturalWidth > 0, "Mobile official wordmark did not load");
   assert(mobile.heroJobCount === 8, "Mobile hero does not have eight jobs");
   assert(mobile.heroPhoneVisible, "Mobile hero phone is hidden");
